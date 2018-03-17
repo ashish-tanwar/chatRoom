@@ -18,9 +18,48 @@ btn.addEventListener('click',function(){
 	message.value="";
 });
 
-message.addEventListener('keypress',function(){
+message.addEventListener('keydown' || 'keypress' || 'input' ,function(e){
+	
 	socket.emit('typing',handle.value);
+	
+	var key = e.which || e.keyCode;
+    if (key === 13) { 
+		socket.emit('chat', {
+		message : message.value,
+		handle : handle.value
+	});
+	message.value="";
+    }
 });
+
+/*message.addEventListener('keypress',function(e){
+	
+	socket.emit('typing',handle.value);
+	
+	var key = e.which || e.keyCode;
+    if (key === 13) { 
+		socket.emit('chat', {
+		message : message.value,
+		handle : handle.value
+	});
+	message.value="";
+    }
+	
+	
+});
+message.addEventListener('input',function(e){
+	
+	socket.emit('typing',handle.value);
+	
+	var key = e.which || e.keyCode;
+    if (key === 13) { 
+		socket.emit('chat', {
+		message : message.value,
+		handle : handle.value
+	});
+	message.value="";
+    }
+});*/
 
 //LISTEN FOR EVENTS
 socket.on('chat',function(data){
